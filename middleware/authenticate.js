@@ -21,12 +21,12 @@ const Authenticate = async (req, res, next) => {
       return res.status(401);
     }
 
-    console.log(token);
+    // console.log(token);
 
     req.token = token;
     req.rootUser = rootUser;  
     req.userID = rootUser._id;
-    console.log("jj");
+    // console.log("jj");
     next();
   }
     

@@ -80,7 +80,7 @@ app.post("/request", async (req, res) => {
     email:itemEmail
   });
   
-  console.log(mentor);
+  // console.log(mentor);
   // console.log(itemEmail);
   // const userrr = await DetailUser.findOne({ email });
   mentor.map((val) => {
@@ -129,6 +129,7 @@ app.post("/decline", async (req, res) => {
 
   res.json({ msg: "success" });
 });
+
 
 app.post("/loginB", async (req, res) => {
   let token;
