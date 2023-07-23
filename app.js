@@ -56,7 +56,7 @@ app.post("/register", async (req, res) => {
 
   DetailUser.findOne({ email }).then((userExist) => {
     if (userExist) return res.status(422).json({ msg: "error" });
-    
+
     const user = new DetailUser({
       firstName,
       password,
@@ -67,7 +67,6 @@ app.post("/register", async (req, res) => {
       bio
     });
 
-    console.log(user);
     user.save();
     return res.json({ msg: "success" });
   });
@@ -163,13 +162,17 @@ app.post("/loginB", async (req, res) => {
   }
 });
 
-
-app.get("/",(req,res)=>
-{
-res.send("hiiii");
-}
-);
-
+app.get("/getAllTutors", (req, res) => {
+  // Use the find method to retrieve all tutors from the database
+  DetailUser.find({}, (err, tutors) => {
+    if (err) {
+      console.error("Error fetching tutors:", err);
+      res.status(500).json({ error: "Internal server error" });
+    } else {
+      res.json(tutors);
+    }
+  });
+});
 // app.get('/getinfo', async (req, res) => {
 //   try {
 //     await auth(req, res); 
