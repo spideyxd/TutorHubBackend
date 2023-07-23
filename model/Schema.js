@@ -23,21 +23,21 @@ const userSchema = new mongoose.Schema({
   },
   subject: {
     type: String,
-    // required: true,
+    required: true,
   },
   bio: {
     type: String,
-    // required: true,
+    required: true,
   },
-  from: {
+  classes: [
+    {
     type: String,
-    // required: true,
-  },
-  to: {
-    type: String,
-    // required: true,
-  },
-  
+    required: true,}
+  ],
+  // to: {
+  //   type: String,
+  //   // required: true,
+  // },  
   tokens: [
     {
       token: {
@@ -46,6 +46,14 @@ const userSchema = new mongoose.Schema({
       },
     },
   ],
+  students: [
+    {
+      name: { type: String, required: true },
+      email: { type: String, required: true },
+      phone:{type:String,required:true}
+    }
+  ]
+ 
 });
 
 
