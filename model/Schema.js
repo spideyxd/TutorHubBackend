@@ -25,10 +25,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  bio: {
+  qualifications: [
+    {
     type: String,
-    required: true,
-  },
+    required: true,}
+  ],
   classes: [
     {
     type: String,
@@ -51,7 +52,11 @@ const userSchema = new mongoose.Schema({
       name: { type: String, required: true },
       email: { type: String, required: true },
     }
-  ]
+  ],
+  testimonials: [{
+    email: { type: String, required: true },
+    test: { type: String, required: true },
+  }],
  
 });
 
@@ -67,7 +72,7 @@ userSchema.pre("save", async function (next) {
 // we are generating token
 userSchema.methods.generateAuthToken = async function () {
   try {
-    console.log(process.env.REACT_APP_TOKEN," hihiihii");
+    // console.log(process.env.REACT_APP_TOKEN," hihiihii");
     let token = jwt.sign(
       { _id: this._id },
       process.env.REACT_APP_TOKEN

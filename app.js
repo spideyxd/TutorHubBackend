@@ -43,9 +43,9 @@ app.post("/register", async (req, res) => {
     email,
     subject,
     classes,
-    bio
+     qualifications
   } = req.body;
-
+console.log(qualifications);
   if (
     !firstName ||
     !password ||
@@ -64,12 +64,34 @@ app.post("/register", async (req, res) => {
       email,
       subject,
       classes,
-      bio
+      qualifications
     });
 
     user.save();
     return res.json({ msg: "success" });
   });
+});
+app.post("/testimonial", async (req, res) => {
+  const { email, test,itemEmail } = req.body;
+
+  try {
+   
+    // console.log(itemEmail);
+    const tutor = await DetailUser.findOne({ email:itemEmail });
+    // console.log(tutor);
+    if (!tutor) {
+      return res.status(404).json({ error: 'Tutor not found' });
+    }
+
+    // Add the new testimonial to the tutor's data
+    tutor.testimonials.push({ email, test});
+    await tutor.save();
+
+    return res.status(200).json({ message: 'Testimonial submitted successfully' });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'Server error' });
+  }
 });
 
 
@@ -175,17 +197,26 @@ app.get("/getAllTutors", (req, res) => {
     }
   });
 });
-// app.get('/getinfo', async (req, res) => {
-//   try {
-//     await auth(req, res); 
-//     // Assuming auth is an asynchronous middleware
-//     res.send(req.rootUser);
-//     // console.log(req.rootUser);
-//   } catch (error) {
-//    console.log("getinfo me dikkat hai")
-//     res.status(401).json({ error: 'Unauthorized' });
-//   }
-// });
+app.get('/getReviewsByTutorEmail', async (req, res) => {
+  const { email } = req.query;
+
+  try {
+    const tutor = await DetailUser.findOne({ email });
+
+    if (!tutor) {
+      return res.status(404).json({ message: 'Tutor not found' });
+    }
+
+    // Assuming reviews are stored as an array in the tutor document
+    const reviews = tutor.testimonials || [];
+    
+
+    res.status(200).json(reviews);
+  } catch (err) {
+    console.error('Error fetching reviews:', err);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 app.get("/getinfo", auth, (req, res) => {
   res.send(req.rootUser);
 });
