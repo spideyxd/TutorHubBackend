@@ -76,9 +76,8 @@ app.post("/testimonial", async (req, res) => {
 
   try {
    
-    // console.log(itemEmail);
     const tutor = await DetailUser.findOne({ email:itemEmail });
-    // console.log(tutor);
+
     if (!tutor) {
       return res.status(404).json({ error: 'Tutor not found' });
     }
@@ -209,7 +208,6 @@ app.get('/getReviewsByTutorEmail', async (req, res) => {
 
     // Assuming reviews are stored as an array in the tutor document
     const reviews = tutor.testimonials || [];
-    
 
     res.status(200).json(reviews);
   } catch (err) {
